@@ -1,13 +1,9 @@
-import { useState } from 'react';
+import React from 'react';
 
-function App() {
-  const [count, setCount] = useState(0);
-
+export default function App() {
   return (
     <>
-    <div className=''>Firebase react</div>
+      <div className=' bg-red-600'>Firebase react</div>
     </>
   );
 }
-
-export default App;
