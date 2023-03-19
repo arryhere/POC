@@ -1,32 +1,49 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useForm } from 'react-hook-form';
+import { FieldErrors, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '../../config/firebase.config';
 
-interface Login {
+interface Signup {
   email: string;
   password: string;
 }
 
 const loginSchema = yup.object().shape({
-  email: yup.string().email().required('Email is required'),
+  email: yup.string().email('Email must be valid').required('Email is required'),
   password: yup.string().required('Password is required').min(8, 'Password must be at least 8 characters'),
 });
 
-export default function Login() {
+export default function Signup() {
+  const [loading, setLoading] = useState<boolean>(false);
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<Login>({
+    reset,
+  } = useForm<Signup>({
     mode: 'onChange',
     resolver: yupResolver(loginSchema),
   });
 
-  async function onSubmit(data: Login) {
-    console.log(data);
+  async function onSubmit(data: Signup) {
+    try {
+      setLoading(true);
+      const { email, password } = data;
+      const response = await createUserWithEmailAndPassword(auth, email, password);
+      console.log('login firebase success', response);
+    } catch (error) {
+      console.log('login firebase error', error);
+    } finally {
+      setLoading(false);
+      reset();
+    }
+  }
+
+  async function onError(error: FieldErrors<Signup>) {
+    console.log('login form error', error);
   }
 
   return (
@@ -36,15 +53,15 @@ export default function Login() {
           <div className=" bg-white rounded-lg shadow dark:border dark:bg-gray-800 dark:border-gray-700">
             <div className="p-6 space-y-4">
               <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-                Sign in to your account
+                Create your account
               </h1>
-              <form className="space-y-4 md:space-y-6" onSubmit={handleSubmit(onSubmit)}>
+              <form className="space-y-4 md:space-y-6" onSubmit={handleSubmit(onSubmit, onError)}>
                 <div>
                   <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                     Your email
                   </label>
                   <input
-                    type="email"
+                    type="text"
                     id="email"
                     {...register('email')}
                     className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 
@@ -69,41 +86,15 @@ export default function Login() {
                   />
                   {errors?.password && <p className=" mt-2 text-sm text-red-400">{errors.password.message}</p>}
                 </div>
-                <div className="flex items-center justify-between">
-                  <div className="flex items-start">
-                    <div className="flex items-center h-5">
-                      <input
-                        id="remember"
-                        aria-describedby="remember"
-                        type="checkbox"
-                        className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 
-                          dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800"
-                      />
-                    </div>
-                    <div className="ml-3 text-sm">
-                      <label htmlFor="remember" className="text-gray-500 dark:text-gray-300">
-                        Remember me
-                      </label>
-                    </div>
-                  </div>
-                  <Link to="/forget-password" className="text-sm font-medium text-primary-600 hover:underline dark:text-gray-300">
-                    Forgot password?
-                  </Link>
-                </div>
                 <button
+                  disabled={loading}
                   type="submit"
                   className="w-full text-white bg-primary-600 ring-2 hover:ring-0 hover:bg-gray-700 focus:ring-4 focus:ring-primary-300 
                     font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 
                     dark:hover:bg-primary-700 dark:focus:ring-primary-800"
                 >
-                  Sign in
+                  {loading ? 'loading' : 'Sign up'}
                 </button>
-                <p className="text-sm font-light text-gray-500 dark:text-gray-400">
-                  Don’t have an account yet?
-                  <Link to="/signup" className="ml-2 font-medium text-primary-600 hover:underline dark:text-primary-500">
-                    Sign up
-                  </Link>
-                </p>
               </form>
             </div>
           </div>
