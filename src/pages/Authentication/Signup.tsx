@@ -6,6 +6,7 @@ import { createUserWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
 import { auth, googleProvider } from '../../config/firebase.config';
 import GoogleIcon from '../../components/Icons/GoogleIcon';
 import { toast } from 'react-toastify';
+import { config } from '../../config/config';
 
 interface Signup {
   email: string;
@@ -18,6 +19,7 @@ const loginSchema = yup.object().shape({
 });
 
 export default function Signup() {
+  const navbarHeight = localStorage.getItem('navbar-height') ? localStorage.getItem('navbar-height') : config.app.navbar_height
   const [loading, setLoading] = useState<boolean>(false);
   const {
     register,
@@ -63,8 +65,8 @@ export default function Signup() {
 
   return (
     <>
-      <section className="h-[calc(100vh-60px)] bg-gray-50 dark:bg-gray-900 flex justify-center items-center">
-        <div className="p-4 w-full md:w-8/12 lg:w-4/12 ">
+      <section className={`h-[calc(100vh-${Number(navbarHeight)}px)] bg-gray-50 dark:bg-gray-900 flex justify-center items-center`}>
+        <div className="p-4 w-full md:w-8/12 lg:max-w-2xl ">
           <div className=" bg-white rounded-lg shadow dark:border dark:bg-gray-800 dark:border-gray-700">
             <div className="p-6 space-y-4">
               <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">

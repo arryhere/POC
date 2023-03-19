@@ -1,15 +1,16 @@
 import React from 'react';
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom';
+import { config } from '../../config/config';
 
 export default function _404() {
+  const navbarHeight = localStorage.getItem('navbar-height') ? localStorage.getItem('navbar-height') : config.app.navbar_height
+
   return (
     <>
-      <section className="bg-white dark:bg-gray-900 ">
-        <div className="lg:px-6 flex flex-col justify-center items-center h-[calc(100vh-60px)]">
+      <section className={`h-[calc(100vh-${Number(navbarHeight)}px)] bg-white dark:bg-gray-900 flex flex-col justify-center items-center`}>
+        <div className="lg:px-6">
           <div className="text-center">
-            <h1 className="mb-4 text-7xl tracking-tight font-extrabold lg:text-9xl text-primary-600 dark:text-gray-700">
-              404
-            </h1>
+            <h1 className="mb-4 text-7xl tracking-tight font-extrabold lg:text-9xl text-primary-600 dark:text-gray-700">404</h1>
             <p className="mb-4 text-3xl tracking-tight font-bold text-gray-900 md:text-4xl dark:text-white">
               Something's missing.
             </p>
