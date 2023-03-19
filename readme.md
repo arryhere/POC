@@ -1,5 +1,3 @@
 ```
-POC
-
-Proof Of Concept
+Vite-React-Typescript-Firebase-template
 ```
