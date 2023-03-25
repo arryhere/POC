@@ -3,11 +3,10 @@ import { Link } from 'react-router-dom';
 import { config } from '../../config/config';
 
 export default function _404() {
-  const navbarHeight = localStorage.getItem('navbar-height') ? localStorage.getItem('navbar-height') : config.app.navbar_height
 
   return (
     <>
-      <section className={`h-[calc(100vh-${Number(navbarHeight)}px)] bg-white dark:bg-gray-900 flex flex-col justify-center items-center`}>
+      <section className={`h-[calc(100vh-${config.app.navbar_height}px)] bg-gray-900 flex flex-col justify-center items-center`}>
         <div className="lg:px-6">
           <div className="text-center">
             <h1 className="mb-4 text-7xl tracking-tight font-extrabold lg:text-9xl text-primary-600 dark:text-gray-700">404</h1>

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { auth } from '../../config/firebase.config';
 import { signOut } from 'firebase/auth';
@@ -10,24 +10,16 @@ export default function Navbar() {
     try {
       await signOut(auth);
       localStorage.removeItem('auth');
-      toast.success('Logout successful');
+      toast('Logout successful');
       navigate('/');
     } catch (error: any) {
-      toast.error(error.message);
+      toast(error.message);
     }
   }
 
-  const navbarRef = useRef<HTMLInputElement>(null);
-
-  useEffect(() => {
-    if (navbarRef.current) {
-      localStorage.setItem('navbar-height', JSON.stringify(navbarRef.current.offsetHeight));
-    }
-  }, [navbarRef.current]);
-
   return (
     <>
-      <header ref={navbarRef}>
+      <header>
         <nav className="bg-white border-gray-200 p-3 dark:bg-gray-800">
           <div className="flex flex-wrap justify-start items-center">
             <button className="flex justify-center items-center hover:bg-gray-700 rounded-lg px-4 py-2.5">

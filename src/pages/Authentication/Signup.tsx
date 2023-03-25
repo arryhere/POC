@@ -19,7 +19,6 @@ const loginSchema = yup.object().shape({
 });
 
 export default function Signup() {
-  const navbarHeight = localStorage.getItem('navbar-height') ? localStorage.getItem('navbar-height') : config.app.navbar_height
   const [loading, setLoading] = useState<boolean>(false);
   const {
     register,
@@ -38,9 +37,9 @@ export default function Signup() {
       const response = await createUserWithEmailAndPassword(auth, email, password);
       console.log(response);
       localStorage.setItem('auth', JSON.stringify(response));
-      toast.success('Signup successful');
+      toast('Signup successful');
     } catch (error: any) {
-      toast.error(error.message);
+      toast(error.message);
     } finally {
       setLoading(false);
       reset();
@@ -55,9 +54,9 @@ export default function Signup() {
     try {
       const response = await signInWithPopup(auth, googleProvider);
       localStorage.setItem('auth', JSON.stringify(response));
-      toast.success('Signup successful');
+      toast('Signup successful');
     } catch (error: any) {
-      toast.error(error.message);
+      toast(error.message);
     } finally {
       reset();
     }
@@ -65,7 +64,7 @@ export default function Signup() {
 
   return (
     <>
-      <section className={`h-[calc(100vh-${Number(navbarHeight)}px)] bg-gray-50 dark:bg-gray-900 flex justify-center items-center`}>
+      <section className={`h-[calc(100vh-${config.app.navbar_height}px)] bg-gray-900 flex justify-center items-center`}>
         <div className="p-4 w-full md:w-8/12 lg:max-w-2xl ">
           <div className=" bg-white rounded-lg shadow dark:border dark:bg-gray-800 dark:border-gray-700">
             <div className="p-6 space-y-4">

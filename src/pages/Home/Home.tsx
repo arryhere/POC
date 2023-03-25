@@ -1,13 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { config } from '../../config/config';
 
 export default function Home() {
-  const navbarHeight = localStorage.getItem('navbar-height') ? localStorage.getItem('navbar-height') : config.app.navbar_height
 
   return (
     <>
-      <section className={`h-[calc(100vh-${Number(navbarHeight)}px)] bg-white dark:bg-gray-900`}>
+      <section className={'h-[calc(100vh-80px)] bg-gray-900'}>
         <div className="py-8 px-4 mx-auto max-w-screen-xl text-center lg:py-16 lg:px-12">
           <h1 className="mb-4 text-4xl font-extrabold tracking-tight leading-none text-gray-900 md:text-5xl lg:text-6xl dark:text-white">
             We invest in the world’s potential
